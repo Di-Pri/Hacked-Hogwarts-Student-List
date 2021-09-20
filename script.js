@@ -1,0 +1,91 @@
+"use strict";
+window.addEventListener("DOMContentLoaded", start);
+
+const StudentPro = {
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  nickName: "",
+  gender: "",
+  house: "",
+};
+
+const allStudents = [];
+
+function start() {
+  loadJSON();
+}
+
+function loadJSON() {
+  fetch("https://petlatkea.dk/2021/hogwarts/students.json")
+    .then((res) => res.json())
+    .then((data) => {
+      prepareStudents(data);
+      console.log(data);
+    });
+}
+
+// Creating new array with cleaned data
+
+function prepareStudents(data) {
+  data.forEach((obj) => {
+    const studentPro = Object.create(StudentPro);
+
+    // Dividing fullname into parts
+
+    const fullName = obj.fullname.trim();
+    const gender = obj.gender;
+    const house = capitalize(obj.house.trim());
+
+    let firstName = capitalize(fullName.substring(0, fullName.indexOf(" ")));
+    let middleName = capitalize(fullName.substring(fullName.indexOf(" ") + 1, fullName.lastIndexOf(" ")));
+    let lastName = capitalize(fullName.substring(fullName.lastIndexOf(" ") + 1));
+    let nickName = "";
+
+    // Fixing unusual situations: Leanne, Ernie, Finch-Fletchley
+
+    if (fullName.includes(" ") === false) {
+      firstName = capitalize(fullName.substring(0));
+      lastName = "";
+    }
+    if (middleName.includes('"')) {
+      nickName = capitalize(middleName.substring(1, middleName.length - 1));
+      middleName = "";
+    }
+    if (lastName.includes("-")) {
+      lastName = lastName.split("-")[0] + "-" + capitalize(lastName.split("-")[1]);
+    }
+
+    // Populating created object with data
+
+    studentPro.firstName = firstName;
+    studentPro.middleName = middleName;
+    studentPro.nickName = nickName;
+    studentPro.lastName = lastName;
+    studentPro.gender = gender;
+    studentPro.house = house;
+    allStudents.push(studentPro);
+  });
+
+  showAllStudents(allStudents);
+}
+
+function capitalize(str) {
+  const capStr = str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+  return capStr;
+}
+
+function showAllStudents(all) {
+  all.forEach(displayStudentList);
+}
+
+function displayStudentList(student) {
+  const clone = document.querySelector("#studentTemplate").content.cloneNode(true);
+  clone.querySelector("[data-field=firstname]").textContent = student.firstName;
+  clone.querySelector("[data-field=middlename]").textContent = student.middleName;
+  clone.querySelector("[data-field=nickname]").textContent = student.nickName;
+  clone.querySelector("[data-field=lastname]").textContent = student.lastName;
+  clone.querySelector("[data-field=gender]").textContent = student.gender;
+  clone.querySelector("[data-field=house]").textContent = student.house;
+  document.querySelector("#studentTable tbody").appendChild(clone);
+}

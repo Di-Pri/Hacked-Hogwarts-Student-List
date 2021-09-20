@@ -9,6 +9,33 @@
     <link rel="icon" href="#" />
   </head>
   <body>
+    <img id="background" src="library.jpg" alt="Library" />
+    <h1>Hogwarts student list 1991</h1>
+    <table id="studentTable">
+      <thead>
+        <tr id="sorting">
+          <th data-action="sort" data-sort-direction="asc" data-sort="firstname">Firstname</th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="middlename">Middlename</th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="nickname">Nickname</th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="lastname">Lastname</th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="gender">Gender</th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- student template -->
+      </tbody>
+    </table>
+    <template id="studentTemplate">
+      <tr>
+        <td data-field="firstname">FIRSTNAME</td>
+        <td data-field="middlename">MIDDLENAME</td>
+        <td data-field="nickname">NICKNAME</td>
+        <td data-field="lastname">LASTNAME</td>
+        <td data-field="gender">GENDER</td>
+        <td data-field="house">HOUSE</td>
+      </tr>
+    </template>
     <script src="script.js"></script>
   </body>
 </html>

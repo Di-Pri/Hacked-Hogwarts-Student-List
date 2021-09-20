@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  color: aliceblue;
+  font-size: 18px;
+}
+
+#background {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  position: fixed;
+  z-index: -1;
+}
+
+h1 {
+  text-align: center;
+}
+
+#sorting th {
+  text-align: left;
+  padding-right: 6rem;
+  padding-bottom: 2rem;
+}
+
+#sorting th:nth-child(4) {
+  padding-right: 20rem;
+}
+
+#studentTable {
+  padding: 5rem;
+}
