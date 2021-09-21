@@ -81,11 +81,22 @@ function showAllStudents(all) {
 
 function displayStudentList(student) {
   const clone = document.querySelector("#studentTemplate").content.cloneNode(true);
-  clone.querySelector("[data-field=firstname]").textContent = student.firstName;
-  clone.querySelector("[data-field=middlename]").textContent = student.middleName;
-  clone.querySelector("[data-field=nickname]").textContent = student.nickName;
-  clone.querySelector("[data-field=lastname]").textContent = student.lastName;
-  clone.querySelector("[data-field=gender]").textContent = student.gender;
+  if (student.firstName === "Leanne") {
+    clone.querySelector(".studentPhoto").src = `images/empty.png`;
+  } else if (student.lastName === "Patil") {
+    clone.querySelector(".studentPhoto").src = `images/${student.lastName.toLowerCase()}_${student.firstName.toLowerCase()}.png`;
+  } else if (student.lastName.includes("-")) {
+    clone.querySelector(".studentPhoto").src = `images/${student.lastName.split("-")[1].toLowerCase()}_${student.firstName
+      .substring(0, 1)
+      .toLowerCase()}.png`;
+  } else {
+    clone.querySelector(".studentPhoto").src = `images/${student.lastName.toLowerCase()}_${student.firstName
+      .substring(0, 1)
+      .toLowerCase()}.png`;
+  }
+  clone.querySelector(
+    "[data-field=firstname]"
+  ).textContent = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
   clone.querySelector("[data-field=house]").textContent = student.house;
   document.querySelector("#studentTable tbody").appendChild(clone);
 }

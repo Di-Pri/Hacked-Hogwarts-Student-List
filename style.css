@@ -20,13 +20,13 @@ h1 {
 
 #sorting th {
   text-align: left;
-  padding-right: 6rem;
+  padding-right: 10rem;
   padding-bottom: 2rem;
 }
 
-#sorting th:nth-child(4) {
+/* #sorting th:first-child {
   padding-right: 20rem;
-}
+} */
 
 #studentTable {
   padding: 5rem;
