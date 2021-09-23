@@ -12,6 +12,10 @@ const StudentPro = {
 
 const allStudents = [];
 
+let filter = "All houses";
+let sort = "";
+let sortDirection = "asc";
+
 function start() {
   loadJSON();
   document.querySelectorAll("[data-action='filter']").forEach((p) => p.addEventListener("click", filterClicked));
@@ -88,13 +92,13 @@ function capitalize(str) {
 // Filtering
 
 function filterClicked(event) {
-  const filter = event.target.dataset.filter;
+  filter = event.target.dataset.filter;
   document.querySelector("#filter span").textContent = filter;
-  filterStudents(filter);
+  filterPlusSort(filter);
 }
 
-function filterStudents(filter) {
-  let filteredStudents = allStudents.filter(filtered);
+function filterStudents(filteredStudents) {
+  filteredStudents = allStudents.filter(filtered);
   function filtered(student) {
     if (student.house === filter) {
       return true;
@@ -104,15 +108,15 @@ function filterStudents(filter) {
       return false;
     }
   }
-  showAllStudents(filteredStudents);
+  return filteredStudents;
 }
 
 // Sorting
 
 function sortClicked(event) {
-  const sort = event.target.dataset.sort;
+  sort = event.target.dataset.sort;
   // Use camelCase for hyphens in data attributes. sort-direction = sortDirection
-  const sortDirection = event.target.dataset.sortDirection;
+  sortDirection = event.target.dataset.sortDirection;
   if (sortDirection === "asc") {
     event.target.dataset.sortDirection = "desc";
     document.querySelector("#sort span").textContent = `${capitalize(sort)} ( A - Z )`;
@@ -121,15 +125,15 @@ function sortClicked(event) {
     document.querySelector("#sort span").textContent = `${capitalize(sort)} ( Z - A )`;
   }
   console.log(`User selected ${sort}`);
-  sortStudents(sort, sortDirection);
+  filterPlusSort(sort, sortDirection);
 }
 
-function sortStudents(sort, sortDirection) {
+function sortStudents(sortedStudents) {
   let direction = 1;
   if (sortDirection === "desc") {
     direction = -1;
   }
-  let sortedStudents = allStudents.sort(sorted);
+  sortedStudents = sortedStudents.sort(sorted);
   function sorted(a, b) {
     if (a[sort] < b[sort]) {
       return -1 * direction;
@@ -137,7 +141,13 @@ function sortStudents(sort, sortDirection) {
       return 1 * direction;
     }
   }
-  showAllStudents(sortedStudents);
+  return sortedStudents;
+}
+
+function filterPlusSort() {
+  const currentStudents = filterStudents(allStudents);
+  const readyStudents = sortStudents(currentStudents);
+  showAllStudents(readyStudents);
 }
 
 function showAllStudents(all) {
