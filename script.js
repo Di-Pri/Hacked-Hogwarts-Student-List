@@ -14,6 +14,17 @@ const allStudents = [];
 
 function start() {
   loadJSON();
+  document.querySelectorAll("[data-action='filter']").forEach((p) => p.addEventListener("click", filterClicked));
+  document.querySelectorAll("[data-action='sort']").forEach((p) => p.addEventListener("click", sortClicked));
+  document.querySelectorAll("button").forEach((button) =>
+    button.addEventListener("click", (e) => {
+      e.stopPropagation();
+      button.nextElementSibling.classList.toggle("hidden");
+      window.addEventListener("click", (e) => {
+        button.nextElementSibling.classList.add("hidden");
+      });
+    })
+  );
 }
 
 function loadJSON() {
@@ -66,7 +77,6 @@ function prepareStudents(data) {
     studentPro.house = house;
     allStudents.push(studentPro);
   });
-
   showAllStudents(allStudents);
 }
 
@@ -75,7 +85,63 @@ function capitalize(str) {
   return capStr;
 }
 
+// Filtering
+
+function filterClicked(event) {
+  const filter = event.target.dataset.filter;
+  document.querySelector("#filter span").textContent = filter;
+  filterStudents(filter);
+}
+
+function filterStudents(filter) {
+  let filteredStudents = allStudents.filter(filtered);
+  function filtered(student) {
+    if (student.house === filter) {
+      return true;
+    } else if (filter === "All houses") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  showAllStudents(filteredStudents);
+}
+
+// Sorting
+
+function sortClicked(event) {
+  const sort = event.target.dataset.sort;
+  // Use camelCase for hyphens in data attributes. sort-direction = sortDirection
+  const sortDirection = event.target.dataset.sortDirection;
+  if (sortDirection === "asc") {
+    event.target.dataset.sortDirection = "desc";
+    document.querySelector("#sort span").textContent = `${capitalize(sort)} ( A - Z )`;
+  } else {
+    event.target.dataset.sortDirection = "asc";
+    document.querySelector("#sort span").textContent = `${capitalize(sort)} ( Z - A )`;
+  }
+  console.log(`User selected ${sort}`);
+  sortStudents(sort, sortDirection);
+}
+
+function sortStudents(sort, sortDirection) {
+  let direction = 1;
+  if (sortDirection === "desc") {
+    direction = -1;
+  }
+  let sortedStudents = allStudents.sort(sorted);
+  function sorted(a, b) {
+    if (a[sort] < b[sort]) {
+      return -1 * direction;
+    } else {
+      return 1 * direction;
+    }
+  }
+  showAllStudents(sortedStudents);
+}
+
 function showAllStudents(all) {
+  document.querySelector("#studentList").innerHTML = "";
   all.forEach(displayStudentList);
 }
 
@@ -98,5 +164,5 @@ function displayStudentList(student) {
     "[data-field=firstname]"
   ).textContent = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
   clone.querySelector("[data-field=house]").textContent = student.house;
-  document.querySelector("#studentTable tbody").appendChild(clone);
+  document.querySelector("#studentList").appendChild(clone);
 }

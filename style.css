@@ -18,16 +18,60 @@ h1 {
   text-align: center;
 }
 
-#sorting th {
-  text-align: left;
-  padding-right: 10rem;
-  padding-bottom: 2rem;
+#studentList {
+  margin: 5rem;
 }
 
-/* #sorting th:first-child {
-  padding-right: 20rem;
-} */
+.allButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 2rem;
+}
 
-#studentTable {
-  padding: 5rem;
+button {
+  padding: 0.5rem;
+  padding-left: 1rem;
+  font-size: 16px;
+  text-align: left;
+  background-color: dimgray;
+  color: aliceblue;
+  border: 1.5px solid aliceblue;
+  width: 14rem;
+  cursor: pointer;
+  outline: none;
+}
+
+button span:nth-of-type(2) {
+  font-size: 11px;
+  float: right;
+  padding: 3px;
+}
+
+button:hover {
+  background-color: gray;
+}
+
+.button-dropdown {
+  position: absolute;
+  background-color: dimgray;
+  display: flex;
+  flex-direction: column;
+  width: 12.8rem;
+  border: 1.5px solid aliceblue;
+  border-top: none;
+  padding: 0.5rem;
+}
+
+.button-dropdown p {
+  margin: 0.5rem;
+  cursor: pointer;
+}
+
+.button-dropdown p:hover {
+  color: gray;
+}
+
+.hidden {
+  display: none;
 }

@@ -11,18 +11,27 @@
   <body>
     <img id="background" src="library.jpg" alt="Library" />
     <h1>Hogwarts student list 1991</h1>
-    <table id="studentTable">
-      <thead>
-        <tr id="sorting">
-          <th data-action="sort" data-sort-direction="asc" data-sort="photo">Photo</th>
-          <th data-action="sort" data-sort-direction="asc" data-sort="firstname">Name</th>
-          <th data-action="sort" data-sort-direction="asc" data-sort="house">House</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- student template -->
-      </tbody>
-    </table>
+    <article class="allButtons">
+      <section>
+        <button id="filter"><span>Filter</span><span>&#9660;</span></button>
+        <div id="filter-dropdown" class="button-dropdown hidden">
+          <p data-action="filter" data-filter="All houses">All houses</p>
+          <p data-action="filter" data-filter="Slytherin">Slytherin</p>
+          <p data-action="filter" data-filter="Hufflepuff">Hufflepuff</p>
+          <p data-action="filter" data-filter="Ravenclaw">Ravenclaw</p>
+          <p data-action="filter" data-filter="Gryffindor">Gryffindor</p>
+        </div>
+      </section>
+      <section>
+        <button id="sort"><span>Sort</span><span>&#9660;</span></button>
+        <div id="sort-dropdown" class="button-dropdown hidden">
+          <p data-action="sort" data-sort-direction="asc" data-sort="firstName">Firstname</p>
+          <p data-action="sort" data-sort-direction="asc" data-sort="lastName">Lastname</p>
+          <p data-action="sort" data-sort-direction="asc" data-sort="house">House</p>
+        </div>
+      </section>
+    </article>
+    <section id="studentList"></section>
     <template id="studentTemplate">
       <tr>
         <td data-field="photo">
