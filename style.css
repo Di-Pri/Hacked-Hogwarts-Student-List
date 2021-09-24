@@ -28,6 +28,11 @@ h3 {
 
 #studentList {
   margin: 5rem;
+  border-spacing: 1rem;
+}
+
+#studentList tr {
+  cursor: pointer;
 }
 
 .allButtons {
@@ -37,7 +42,7 @@ h3 {
   margin: 2rem;
 }
 
-button {
+.allButtons button {
   padding: 0.5rem;
   padding-left: 1rem;
   font-size: 16px;
@@ -50,13 +55,13 @@ button {
   outline: none;
 }
 
-button span:nth-of-type(2) {
+.allButtons button span:nth-of-type(2) {
   font-size: 11px;
   float: right;
   padding: 3px;
 }
 
-button:hover {
+.allButtons button:hover {
   background-color: gray;
 }
 
@@ -78,10 +83,6 @@ button:hover {
 
 .button-dropdown p:hover {
   color: gray;
-}
-
-.hidden {
-  display: none;
 }
 
 #search {
@@ -119,3 +120,88 @@ input[type="search"]::-webkit-search-cancel-button {
   display: none;
 }
 /* End */
+
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 300px;
+  padding: 1rem;
+  background-color: gray;
+  box-shadow: 0px 0px 6px 1px rgb(88, 88, 88);
+  display: flex;
+}
+
+#modalButton {
+  background: gray;
+  border: none;
+  box-shadow: 0px 0px 6px 1px rgb(88, 88, 88);
+  width: 20rem;
+  padding: 0.5rem;
+  color: var(--text-color);
+  font-size: 16px;
+  margin-top: 1rem;
+}
+
+#modalButton:hover {
+  background-color: rgb(122, 122, 122);
+}
+
+.modalLeft {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalLeftTop {
+  display: flex;
+  height: 50%;
+}
+
+.modalRight {
+  text-align: center;
+}
+
+.modalRight p {
+  float: right;
+  margin-top: -0.2rem;
+  margin-right: 0.2rem;
+  cursor: pointer;
+}
+
+.studentPhotoModal {
+  max-height: 100%;
+  height: 140px;
+}
+
+.crestImage {
+  max-height: 75%;
+  opacity: 0.5;
+  margin-left: 1.2rem;
+}
+
+.modalLeft p {
+  margin: 0.7rem;
+}
+
+.slytherin {
+  background-color: #08331f;
+}
+
+.hufflepuff {
+  background-color: #37260a;
+}
+
+.ravenclaw {
+  background-color: #0b2b40;
+}
+
+.gryffindor {
+  background-color: #3f182b;
+}
+
+.hidden {
+  display: none;
+}

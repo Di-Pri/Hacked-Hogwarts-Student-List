@@ -21,7 +21,7 @@ function start() {
   loadJSON();
   document.querySelectorAll("[data-action='filter']").forEach((p) => p.addEventListener("click", filterClicked));
   document.querySelectorAll("[data-action='sort']").forEach((p) => p.addEventListener("click", sortClicked));
-  document.querySelectorAll("button").forEach((button) =>
+  document.querySelectorAll(".allButtons button").forEach((button) =>
     button.addEventListener("click", (e) => {
       e.stopPropagation();
       button.nextElementSibling.classList.toggle("hidden");
@@ -182,22 +182,45 @@ function displayStudentList(student) {
     document.querySelector("h3 span").textContent = readyStudents.length;
   }
   const clone = document.querySelector("#studentTemplate").content.cloneNode(true);
+  let photo = clone.querySelector(".studentPhoto");
+
   if (student.firstName === "Leanne") {
-    clone.querySelector(".studentPhoto").src = `images/empty.png`;
+    photo.src = `images/empty.png`;
   } else if (student.lastName === "Patil") {
-    clone.querySelector(".studentPhoto").src = `images/${student.lastName.toLowerCase()}_${student.firstName.toLowerCase()}.png`;
+    photo.src = `images/${student.lastName.toLowerCase()}_${student.firstName.toLowerCase()}.png`;
   } else if (student.lastName.includes("-")) {
-    clone.querySelector(".studentPhoto").src = `images/${student.lastName.split("-")[1].toLowerCase()}_${student.firstName
-      .substring(0, 1)
-      .toLowerCase()}.png`;
+    photo.src = `images/${student.lastName.split("-")[1].toLowerCase()}_${student.firstName.substring(0, 1).toLowerCase()}.png`;
   } else {
-    clone.querySelector(".studentPhoto").src = `images/${student.lastName.toLowerCase()}_${student.firstName
-      .substring(0, 1)
-      .toLowerCase()}.png`;
+    photo.src = `images/${student.lastName.toLowerCase()}_${student.firstName.substring(0, 1).toLowerCase()}.png`;
   }
   clone.querySelector(
     "[data-field=firstname]"
   ).textContent = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
   clone.querySelector("[data-field=house]").textContent = student.house;
+
+  clone.querySelector("tr").addEventListener("click", (e) => {
+    document.querySelector(".studentPhotoModal").src = photo.src;
+    document.querySelector(".modalFirstname").textContent = `First name: ${student.firstName}`;
+
+    // (student.middleName === "") - Fixing Leanne
+
+    if (student.middleName === " " || student.middleName === "") {
+      document.querySelector(".modalMiddlename").textContent = `Middle name: -`;
+    } else {
+      document.querySelector(".modalMiddlename").textContent = `Middle name: ${student.middleName}`;
+    }
+    if (student.nickName === "") {
+      document.querySelector(".modalNickname").textContent = `Nickname: -`;
+    } else {
+      document.querySelector(".modalNickname").textContent = `Nickname: ${student.nickName}`;
+    }
+    document.querySelector(".modalLastname").textContent = `Lastname: ${student.lastName}`;
+    document.querySelector(".crestImage").src = `images/${student.house}.png`;
+    document.querySelector("#modal").className = `${student.house.toLowerCase()} modal`;
+    document.querySelector(".modalRight p").addEventListener("click", (e) => {
+      document.querySelector("#modal").classList.add("hidden");
+    });
+  });
+
   document.querySelector("#studentList").appendChild(clone);
 }
