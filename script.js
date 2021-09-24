@@ -147,6 +147,7 @@ function sortStudents(sortedStudents) {
 }
 
 function filterPlusSort() {
+  document.querySelector("input").value = "";
   const currentStudents = filterStudents(allStudents);
   readyStudents = sortStudents(currentStudents);
   showAllStudents(readyStudents);
@@ -168,6 +169,7 @@ function searchClicked(event) {
   window.addEventListener("click", (e) => {
     document.querySelector("input").value = "";
   });
+  document.querySelector("h3 span").textContent = searchStudents.length;
 }
 
 function showAllStudents(all) {
@@ -176,6 +178,9 @@ function showAllStudents(all) {
 }
 
 function displayStudentList(student) {
+  if (document.querySelector("input").value === "") {
+    document.querySelector("h3 span").textContent = readyStudents.length;
+  }
   const clone = document.querySelector("#studentTemplate").content.cloneNode(true);
   if (student.firstName === "Leanne") {
     clone.querySelector(".studentPhoto").src = `images/empty.png`;
