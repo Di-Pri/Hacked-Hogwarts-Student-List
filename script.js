@@ -11,6 +11,7 @@ const StudentPro = {
 };
 
 const allStudents = [];
+let readyStudents = allStudents;
 
 let filter = "All houses";
 let sort = "";
@@ -29,6 +30,7 @@ function start() {
       });
     })
   );
+  document.querySelector("#search input").addEventListener("input", searchClicked);
 }
 
 function loadJSON() {
@@ -146,8 +148,26 @@ function sortStudents(sortedStudents) {
 
 function filterPlusSort() {
   const currentStudents = filterStudents(allStudents);
-  const readyStudents = sortStudents(currentStudents);
+  readyStudents = sortStudents(currentStudents);
   showAllStudents(readyStudents);
+}
+
+// Searching
+
+function searchClicked(event) {
+  const input = event.target.value;
+  const searchStudents = readyStudents.filter((student) => {
+    const fullStudentName = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
+    if (fullStudentName.toLowerCase().includes(input.toLowerCase())) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  showAllStudents(searchStudents);
+  window.addEventListener("click", (e) => {
+    document.querySelector("input").value = "";
+  });
 }
 
 function showAllStudents(all) {

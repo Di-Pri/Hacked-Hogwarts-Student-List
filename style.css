@@ -1,6 +1,10 @@
+:root {
+  --text-color: aliceblue;
+}
+
 body {
   margin: 0;
-  color: aliceblue;
+  color: var(--text-color);
   font-size: 18px;
 }
 
@@ -35,8 +39,8 @@ button {
   font-size: 16px;
   text-align: left;
   background-color: dimgray;
-  color: aliceblue;
-  border: 1.5px solid aliceblue;
+  color: var(--text-color);
+  border: 1.5px solid var(--text-color);
   width: 14rem;
   cursor: pointer;
   outline: none;
@@ -58,7 +62,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   width: 12.8rem;
-  border: 1.5px solid aliceblue;
+  border: 1.5px solid var(--text-color);
   border-top: none;
   padding: 0.5rem;
 }
@@ -75,3 +79,39 @@ button:hover {
 .hidden {
   display: none;
 }
+
+#search {
+  text-align: center;
+}
+
+input[type="search"] {
+  border: none;
+  background: none;
+  outline: none;
+  border-bottom: 1.5px solid var(--text-color);
+  width: 240px;
+  transition: width 0.3s ease-out;
+  font-size: 16px;
+  text-align: center;
+  color: var(--text-color);
+  padding: 0.5rem;
+}
+
+input[type="search"]::placeholder {
+  color: var(--text-color);
+}
+
+input[type="search"]:hover {
+  width: 320px;
+  transition: width 0.3s ease-out;
+}
+
+input[type="search"]:focus {
+  width: 320px;
+}
+
+/* The code below removes X next to input data in Chrome */
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+/* End */
