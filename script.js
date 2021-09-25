@@ -14,6 +14,7 @@ const StudentPro = {
 const allStudents = [];
 let readyStudents = allStudents;
 let expelledStudents = [];
+let filteredandSortedSt = [];
 
 let filter = "All houses";
 let sort = "";
@@ -23,7 +24,7 @@ function start() {
   loadJSON();
   document.querySelectorAll("[data-action='filter']").forEach((p) => p.addEventListener("click", filterClicked));
   document.querySelectorAll("[data-action='sort']").forEach((p) => p.addEventListener("click", sortClicked));
-  document.querySelectorAll(".allButtons button").forEach((button) =>
+  document.querySelectorAll("button.buttonHasDropdown").forEach((button) =>
     button.addEventListener("click", (e) => {
       e.stopPropagation();
       button.nextElementSibling.classList.toggle("hidden");
@@ -33,6 +34,7 @@ function start() {
     })
   );
 
+  document.querySelector("#expelledButton").addEventListener("click", showExpelledStudents);
   document.querySelector("#search input").addEventListener("input", searchClicked);
 }
 
@@ -88,6 +90,7 @@ function prepareStudents(data) {
   });
   showAllStudents(allStudents);
 }
+// Capitalize function
 
 function capitalize(str) {
   const capStr = str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
@@ -105,9 +108,9 @@ function filterClicked(event) {
 function filterStudents(filteredStudents) {
   filteredStudents = allStudents.filter(filtered);
   function filtered(student) {
-    if (student.house === filter) {
+    if (student.house === filter && student.expelled === false) {
       return true;
-    } else if (filter === "All houses") {
+    } else if (filter === "All houses" && student.expelled === false) {
       return true;
     } else {
       return false;
@@ -129,7 +132,6 @@ function sortClicked(event) {
     event.target.dataset.sortDirection = "asc";
     document.querySelector("#sort span").textContent = `${capitalize(sort)} ( Z - A )`;
   }
-  console.log(`User selected ${sort}`);
   filterPlusSort(sort, sortDirection);
 }
 
@@ -180,10 +182,13 @@ function showAllStudents(all) {
   all.forEach(displayStudentList);
 }
 
+// Display student list function
+
 function displayStudentList(student) {
   if (document.querySelector("input").value === "") {
     document.querySelector("h3 span").textContent = readyStudents.length;
   }
+
   const clone = document.querySelector("#studentTemplate").content.cloneNode(true);
   let photo = clone.querySelector(".studentPhoto");
 
@@ -205,46 +210,49 @@ function displayStudentList(student) {
 
   clone.querySelector("tr").addEventListener("click", (e) => {
     document.querySelector(".studentPhotoModal").src = photo.src;
-    document.querySelector(".modalFirstname").textContent = `First name: ${student.firstName}`;
-
-    // (student.middleName === "") - Fixing Leanne
-
-    if (student.middleName === " " || student.middleName === "") {
-      document.querySelector(".modalMiddlename").textContent = `Middle name: -`;
-    } else {
-      document.querySelector(".modalMiddlename").textContent = `Middle name: ${student.middleName}`;
-    }
-    if (student.nickName === "") {
-      document.querySelector(".modalNickname").textContent = `Nickname: -`;
-    } else {
-      document.querySelector(".modalNickname").textContent = `Nickname: ${student.nickName}`;
-    }
-    document.querySelector(".modalLastname").textContent = `Lastname: ${student.lastName}`;
-
-    document.querySelector(".crestImage").src = `images/${student.house}.png`;
-    document.querySelector("#modal").className = `${student.house.toLowerCase()} modal`;
-    document.querySelector(".modalRight p").addEventListener("click", (e) => {
-      document.querySelector("#modal").classList.add("hidden");
-    });
-
-    // expelled student styling
-
-    if (student.expelled === false) {
-      document.querySelector(".modalExpelled").textContent = `Is expelled: No`;
-      document.querySelector("#expelButton").classList.remove("opacity");
-    }
-
-    document.querySelector("#expelButton").addEventListener("click", expelClicked);
-    function expelClicked() {
-      expelStudent(student);
-      document.querySelector("#expelButton").removeEventListener("click", expelClicked);
-      document.querySelector("#expelButton").classList.add("opacity");
-    }
+    showModal(student);
   });
+
   document.querySelector("#studentList").appendChild(clone);
 }
 
-// Expel student function
+function showModal(student) {
+  document.querySelector(".modalFirstname").textContent = `First name: ${student.firstName}`;
+
+  // (student.middleName === "") - Fixing Leanne
+
+  if (student.middleName === " " || student.middleName === "") {
+    document.querySelector(".modalMiddlename").textContent = `Middle name: -`;
+  } else {
+    document.querySelector(".modalMiddlename").textContent = `Middle name: ${student.middleName}`;
+  }
+  if (student.nickName === "") {
+    document.querySelector(".modalNickname").textContent = `Nickname: -`;
+  } else {
+    document.querySelector(".modalNickname").textContent = `Nickname: ${student.nickName}`;
+  }
+  document.querySelector(".modalLastname").textContent = `Lastname: ${student.lastName}`;
+
+  document.querySelector(".crestImage").src = `images/${student.house}.png`;
+  document.querySelector("#modal").className = `${student.house.toLowerCase()} modal`;
+  document.querySelector(".modalRight p").addEventListener("click", (e) => {
+    document.querySelector("#modal").classList.add("hidden");
+  });
+
+  // expelled student styling
+
+  if (student.expelled === false) {
+    document.querySelector(".modalExpelled").textContent = `Is expelled: No`;
+    document.querySelector("#expelButton").classList.remove("opacity");
+    document.querySelector("#expelButton").addEventListener("click", expelClicked);
+    function expelClicked() {
+      document.querySelector("#expelButton").removeEventListener("click", expelClicked);
+      expelStudent(student);
+    }
+  }
+}
+
+// Expel student functions
 
 function expelStudent(student) {
   student.expelled = true;
@@ -257,5 +265,16 @@ function expelStudent(student) {
   console.log("readyStudents:", readyStudents);
   console.log("expelledStudents:", expelledStudents);
 
+  showAllStudents(readyStudents);
+}
+
+function showExpelledStudents() {
+  document.querySelector("#filter span").textContent = "Filter";
+  document.querySelector("#sort span").textContent = "Sort";
+  document.querySelector("input").value = "";
+  if (expelledStudents.length < 1) {
+    document.querySelector("h3 span").textContent = "0";
+  }
+  readyStudents = expelledStudents;
   showAllStudents(readyStudents);
 }
