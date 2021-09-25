@@ -8,10 +8,12 @@ const StudentPro = {
   nickName: "",
   gender: "",
   house: "",
+  expelled: false,
 };
 
 const allStudents = [];
 let readyStudents = allStudents;
+let expelledStudents = [];
 
 let filter = "All houses";
 let sort = "";
@@ -30,6 +32,7 @@ function start() {
       });
     })
   );
+
   document.querySelector("#search input").addEventListener("input", searchClicked);
 }
 
@@ -148,7 +151,7 @@ function sortStudents(sortedStudents) {
 
 function filterPlusSort() {
   document.querySelector("input").value = "";
-  const currentStudents = filterStudents(allStudents);
+  const currentStudents = filterStudents(readyStudents);
   readyStudents = sortStudents(currentStudents);
   showAllStudents(readyStudents);
 }
@@ -198,6 +201,8 @@ function displayStudentList(student) {
   ).textContent = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
   clone.querySelector("[data-field=house]").textContent = student.house;
 
+  // Modal
+
   clone.querySelector("tr").addEventListener("click", (e) => {
     document.querySelector(".studentPhotoModal").src = photo.src;
     document.querySelector(".modalFirstname").textContent = `First name: ${student.firstName}`;
@@ -215,12 +220,42 @@ function displayStudentList(student) {
       document.querySelector(".modalNickname").textContent = `Nickname: ${student.nickName}`;
     }
     document.querySelector(".modalLastname").textContent = `Lastname: ${student.lastName}`;
+
     document.querySelector(".crestImage").src = `images/${student.house}.png`;
     document.querySelector("#modal").className = `${student.house.toLowerCase()} modal`;
     document.querySelector(".modalRight p").addEventListener("click", (e) => {
       document.querySelector("#modal").classList.add("hidden");
     });
-  });
 
+    // expelled student styling
+
+    if (student.expelled === false) {
+      document.querySelector(".modalExpelled").textContent = `Is expelled: No`;
+      document.querySelector("#expelButton").classList.remove("opacity");
+    }
+
+    document.querySelector("#expelButton").addEventListener("click", expelClicked);
+    function expelClicked() {
+      expelStudent(student);
+      document.querySelector("#expelButton").removeEventListener("click", expelClicked);
+      document.querySelector("#expelButton").classList.add("opacity");
+    }
+  });
   document.querySelector("#studentList").appendChild(clone);
+}
+
+// Expel student function
+
+function expelStudent(student) {
+  student.expelled = true;
+  document.querySelector(".modalExpelled").textContent = `Is expelled: Yes`;
+  document.querySelector("#expelButton").classList.add("opacity");
+  const indexStudent = readyStudents.findIndex((obj) => obj.firstName === student.firstName);
+  readyStudents.splice(indexStudent, 1);
+
+  expelledStudents.push(student);
+  console.log("readyStudents:", readyStudents);
+  console.log("expelledStudents:", expelledStudents);
+
+  showAllStudents(readyStudents);
 }
