@@ -9,6 +9,7 @@ const StudentPro = {
   gender: "",
   house: "",
   expelled: false,
+  blood: "",
 };
 
 const allStudents = [];
@@ -38,19 +39,19 @@ function start() {
   document.querySelector("#search input").addEventListener("input", searchClicked);
 }
 
-function loadJSON() {
-  fetch("https://petlatkea.dk/2021/hogwarts/students.json")
-    .then((res) => res.json())
-    .then((data) => {
-      prepareStudents(data);
-      console.log(data);
-    });
+async function loadJSON() {
+  const resStudent = await fetch("https://petlatkea.dk/2021/hogwarts/students.json");
+  const studentData = await resStudent.json();
+  const resBlood = await fetch("https://petlatkea.dk/2021/hogwarts/families.json");
+  const bloodData = await resBlood.json();
+  prepareStudents(studentData, bloodData);
 }
 
-// Creating new array with cleaned data
+// Creating new array with cleaned Student data
 
-function prepareStudents(data) {
-  data.forEach((obj) => {
+function prepareStudents(studentData, bloodData) {
+  console.log("studentData", studentData, "bloodData", bloodData);
+  studentData.forEach((obj) => {
     const studentPro = Object.create(StudentPro);
 
     // Dividing fullname into parts
@@ -63,6 +64,7 @@ function prepareStudents(data) {
     let middleName = capitalize(fullName.substring(fullName.indexOf(" ") + 1, fullName.lastIndexOf(" ")));
     let lastName = capitalize(fullName.substring(fullName.lastIndexOf(" ") + 1));
     let nickName = "";
+    let blood;
 
     // Fixing unusual situations: Leanne, Ernie, Finch-Fletchley
 
@@ -78,6 +80,18 @@ function prepareStudents(data) {
       lastName = lastName.split("-")[0] + "-" + capitalize(lastName.split("-")[1]);
     }
 
+    // Finding blood status
+
+    if (lastName === "") {
+      blood = "unknown";
+    } else if (bloodData.half.includes(lastName)) {
+      blood = "half";
+    } else if (bloodData.pure.includes(lastName)) {
+      blood = "pure";
+    } else {
+      blood = "muggle";
+    }
+
     // Populating created object with data
 
     studentPro.firstName = firstName;
@@ -86,10 +100,12 @@ function prepareStudents(data) {
     studentPro.lastName = lastName;
     studentPro.gender = gender;
     studentPro.house = house;
+    studentPro.blood = capitalize(blood);
     allStudents.push(studentPro);
   });
   showAllStudents(allStudents);
 }
+
 // Capitalize function
 
 function capitalize(str) {
@@ -205,6 +221,7 @@ function displayStudentList(student) {
     "[data-field=firstname]"
   ).textContent = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
   clone.querySelector("[data-field=house]").textContent = student.house;
+  clone.querySelector("[data-field=blood]").textContent = student.blood;
 
   // Modal
 
@@ -232,6 +249,8 @@ function showModal(student) {
     document.querySelector(".modalNickname").textContent = `Nickname: ${student.nickName}`;
   }
   document.querySelector(".modalLastname").textContent = `Lastname: ${student.lastName}`;
+
+  document.querySelector(".modalBlood").textContent = `Blood status: ${student.blood}`;
 
   document.querySelector(".crestImage").src = `images/${student.house}.png`;
   document.querySelector("#modal").className = `${student.house.toLowerCase()} modal`;
@@ -262,8 +281,6 @@ function expelStudent(student) {
   readyStudents.splice(indexStudent, 1);
 
   expelledStudents.push(student);
-  console.log("readyStudents:", readyStudents);
-  console.log("expelledStudents:", expelledStudents);
 
   showAllStudents(readyStudents);
 }
