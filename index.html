@@ -9,13 +9,12 @@
     <link rel="icon" href="#" />
   </head>
   <body>
-    <img id="background" src="library.jpg" alt="Library" />
+    <img id="background" src="images/library.jpg" alt="Library" />
     <h1>Hogwarts student list 1991</h1>
     <h3>Showing <span>34</span> students</h3>
     <section id="search">
       <input type="search" placeholder="Type here to search" />
     </section>
-
     <article class="allButtons">
       <section>
         <button id="filter" class="buttonHasDropdown"><span>Filter</span><span>&#9660;</span></button>
@@ -37,6 +36,15 @@
       </section>
       <section>
         <button id="expelledButton">Expelled students</button>
+      </section>
+      <section>
+        <button id="squadedButton">Squad students</button>
+      </section>
+      <section>
+        <button id="prefectedButton">Prefect students</button>
+      </section>
+      <section>
+        <button id="hackTheSystem">Hack the system</button>
       </section>
     </article>
     <section id="modal" class="modal hidden">
@@ -64,12 +72,26 @@
       </div>
       </div>
       <div id="secondModal" class="secondModal">
-        <button id="prefectButton">Add prefect</button>
-        <button id="expelButton">Expel student</button>
-        <button id="squadButton">Add to Inq. squad</button>
+        <p></p>
       </div>
     </section>
     <section id="studentList"></section>
+    <section id="canNotModalSquad" class="smallModal hidden">
+      <p id="canNotModalCrossSquad">&#10008</p>
+      <p>You can only add students with pure blood or from Slytherin house to Inquisitorial Squad</p>
+    </section>
+    <section id="canNotModalPrefect" class="smallModal hidden">
+      <p id="canNotModalCrossPrefect">&#10008</p>
+      <p>Only two students from each house can be selected Prefects</p>
+    </section>
+    <section id="hackedModal" class="smallModal hidden">
+      <p id="hackedModalCross">&#10008</p>
+      <p class="hackedP">All students were removed from Inquisitorial Squad</p>
+    </section>
+    <section id="cantExpelModal" class="smallModal hidden">
+      <p id="cantExpelModalCross">&#10008</p>
+      <p class="hackedP">Hacker can't be expelled</p>
+    </section>
     <template id="studentTemplate">
       <tr>
         <td data-field="photo">
@@ -78,6 +100,14 @@
         <td data-field="firstname"></td>
         <td data-field="house"></td>
         <td data-field="blood"></td>
+        <!-- <td data-field="prefect">
+          <img class="prefectImage hidden" src="images/prefect.png" alt="Prefect" />
+        </td> -->
+        <td data-field="squad" data-squad="false"></td>
+        <td data-field="prefect" data-prefect="false"></td>
+        <td data-field="buttonEx">Expell student</td>
+        <td data-field="buttonSq">Add to Squad</td>
+        <td data-field="buttonPr">Add Prefect</td>
       </tr>
     </template>
     <script src="script.js"></script>
