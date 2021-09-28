@@ -25,6 +25,7 @@ let prefectedStudents = [];
 let filter = "All houses";
 let sort = "";
 let sortDirection = "asc";
+let alreadyHacked = false;
 
 function start() {
   loadJSON();
@@ -131,15 +132,16 @@ function filterClicked(event) {
 }
 
 function filterStudents(filteredStudents) {
-  filteredStudents = allStudents.filter(filtered);
-
-  function filtered(student) {
-    if (student.house === filter && student.expelled === false) {
-      return true;
-    } else if (filter === "All houses" && student.expelled === false) {
-      return true;
-    } else {
-      return false;
+  if (document.querySelector("#filter span").textContent !== "Filter ") {
+    filteredStudents = allStudents.filter(filtered);
+    function filtered(student) {
+      if (student.house === filter && student.expelled === false) {
+        return true;
+      } else if (filter === "All houses" && student.expelled === false) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
   return filteredStudents;
@@ -263,6 +265,11 @@ function displayStudentList(student) {
     }
   } else {
     clone.querySelector("[data-field=buttonEx]").textContent = "Student expelled";
+    document.querySelector(".modalExpelled").textContent = `Is expelled: Yes`;
+    document.querySelector(".modalSquad").textContent = "Inquisitorial squad member: No";
+    document.querySelector(".modalPrefect").textContent = "Has prefect: No";
+    clone.querySelector("[data-field=buttonSq]").classList.add("hidden");
+    clone.querySelector("[data-field=buttonPr]").classList.add("hidden");
   }
 
   // Squad
@@ -317,13 +324,9 @@ function displayStudentList(student) {
   }
 
   function dontMakeSquad() {
-    document.querySelector("#canNotModalSquad").classList.remove("hidden");
-    document.querySelector("#canNotModalCrossSquad").addEventListener("click", closeCanNotModalSquad);
-
-    function closeCanNotModalSquad() {
-      document.querySelector("#canNotModalCrossSquad").removeEventListener("click", closeCanNotModalSquad);
-      document.querySelector("#canNotModalSquad").classList.add("hidden");
-    }
+    alert();
+    document.querySelector("#alertModal p:nth-of-type(2)").textContent =
+      "You can only add students with pure blood or from Slytherin house to Inquisitorial Squad";
   }
 
   // Prefect starts
@@ -346,7 +349,6 @@ function displayStudentList(student) {
     const numberOfPrefectsFromOneHouse = fromOneHouse.length;
 
     if (student.prefect === false && numberOfPrefectsFromOneHouse < 2) {
-      console.log("makePrefect is true");
       student.prefect = true;
 
       prefectedStudents.push(student);
@@ -368,13 +370,8 @@ function displayStudentList(student) {
   }
 
   function dontMakePrefect() {
-    document.querySelector("#canNotModalPrefect").classList.remove("hidden");
-    document.querySelector("#canNotModalCrossPrefect").addEventListener("click", closeCanNotModalPrefect);
-
-    function closeCanNotModalPrefect() {
-      document.querySelector("#canNotModalCrossPrefect").removeEventListener("click", closeCanNotModalPrefect);
-      document.querySelector("#canNotModalPrefect").classList.add("hidden");
-    }
+    alert();
+    document.querySelector("#alertModal p:nth-of-type(2)").textContent = "Only two students from each house can be selected Prefects";
   }
 
   // Append clone
@@ -416,23 +413,12 @@ function showModal(student) {
 
 function expelStudent(student) {
   if (student.firstName === "Hacker") {
-    document.querySelector("#cantExpelModal").classList.remove("hidden");
-
-    setTimeout(function () {
-      document.querySelector("#cantExpelModal").classList.add("hidden");
-    }, 3000);
-
-    document.querySelector("#hackedModalCross").addEventListener("click", (e) => {
-      document.querySelector("#hackedModal").classList.add("hidden");
-    });
-
-    console.log("Can't expell");
+    alertFromHacker();
+    document.querySelector("#hackedModal p").textContent = "Hacker can't be expelled";
   } else {
     student.expelled = true;
     student.prefect = false;
     student.squad = false;
-
-    document.querySelector(".modalExpelled").textContent = `Is expelled: Yes`;
 
     const indexStudent = readyStudents.findIndex((obj) => obj.firstName === student.firstName);
 
@@ -449,7 +435,7 @@ function expelStudent(student) {
 // Show expelled students
 
 function showExpelledStudents() {
-  document.querySelector("#filter span").textContent = "Filter";
+  document.querySelector("#filter span").textContent = "Filter ";
   document.querySelector("#sort span").textContent = "Sort";
 
   document.querySelector("input").value = "";
@@ -465,7 +451,7 @@ function showExpelledStudents() {
 // Show students in Squad
 
 function showSquadedStudents() {
-  document.querySelector("#filter span").textContent = "Filter";
+  document.querySelector("#filter span").textContent = "Filter ";
   document.querySelector("#sort span").textContent = "Sort";
 
   document.querySelector("input").value = "";
@@ -481,7 +467,7 @@ function showSquadedStudents() {
 // Show students with Prefect
 
 function showPrefectedStudents() {
-  document.querySelector("#filter span").textContent = "Filter";
+  document.querySelector("#filter span").textContent = "Filter ";
   document.querySelector("#sort span").textContent = "Sort";
 
   document.querySelector("input").value = "";
@@ -497,9 +483,15 @@ function showPrefectedStudents() {
 // Hack the system
 
 function hackTheSystem() {
-  addMyself();
-  messBlood();
-  removeFromSquad();
+  if (alreadyHacked === false) {
+    alreadyHacked = true;
+    addMyself();
+    messBlood();
+    removeFromSquad();
+  } else {
+    alertFromHacker();
+    document.querySelector("#hackedModal p").textContent = "The system has already been hacked";
+  }
 }
 
 // Add myself
@@ -552,21 +544,28 @@ function messBlood() {
 function removeFromSquad() {
   squadedStudents.forEach((obj) => {
     // `${obj.firstName} ${obj.lastName} `;
-
-    document.querySelector("#hackedModal").classList.remove("hidden");
+    alertFromHacker();
+    document.querySelector("#hackedModal p").textContent = "All students were removed from Inquisitorial Squad by Hacker";
 
     obj.squad = false;
-
-    squadedStudents = [];
   });
+  squadedStudents = [];
+
+  buildList();
+}
+
+function alert() {
+  document.querySelector("#alertModal").classList.remove("hidden");
+
+  document.querySelector("#alertModal p").addEventListener("click", (e) => {
+    document.querySelector("#alertModal").classList.add("hidden");
+  });
+}
+
+function alertFromHacker() {
+  document.querySelector("#hackedModal").classList.remove("hidden");
 
   setTimeout(function () {
     document.querySelector("#hackedModal").classList.add("hidden");
   }, 3000);
-
-  document.querySelector("#hackedModalCross").addEventListener("click", (e) => {
-    document.querySelector("#hackedModal").classList.add("hidden");
-  });
-
-  buildList();
 }
