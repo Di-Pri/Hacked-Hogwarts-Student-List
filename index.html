@@ -6,17 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hogwarts student list</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="#" />
+    <link rel="icon" href="images/hacker.png" />
   </head>
   <body>
-    <img id="background" src="images/library.jpg" alt="Library" />
+    <img id="background" src="images/library.jpg" alt="Background image - Library" />
+    <div class="overlay"></div>
+
+    <section id="slideOut" class="hidden">
+      <p>The</p>
+      <p>system</p>
+      <p>was</p>
+      <p>hacked</p>
+    </section>
+
+    <div class="hackerLogo">
+      <img id="hackTheSystem" src="images/hacker.png" alt="Hacker" />
+    </div>
+
     <h1>Hogwarts student list 1991</h1>
-    <h3>Showing <span>34</span> students</h3>
+
     <section id="search">
       <input type="search" placeholder="Type here to search" />
     </section>
-    <article class="allButtons">
-      <section>
+
+    <section class="allButtons">
+      <div>
         <button id="filter" class="buttonHasDropdown"><span>Filter</span><span>&#9660;</span></button>
         <div id="filter-dropdown" class="button-dropdown hidden">
           <p data-action="filter" data-filter="All houses">All houses</p>
@@ -25,82 +39,102 @@
           <p data-action="filter" data-filter="Ravenclaw">Ravenclaw</p>
           <p data-action="filter" data-filter="Gryffindor">Gryffindor</p>
         </div>
-      </section>
-      <section>
+      </div>
+      <div>
         <button id="sort" class="buttonHasDropdown"><span>Sort</span><span>&#9660;</span></button>
         <div id="sort-dropdown" class="button-dropdown hidden">
           <p data-action="sort" data-sort-direction="asc" data-sort="firstName">Firstname</p>
           <p data-action="sort" data-sort-direction="asc" data-sort="lastName">Lastname</p>
           <p data-action="sort" data-sort-direction="asc" data-sort="house">House</p>
         </div>
-      </section>
-      <section>
+      </div>
+      <div>
         <button id="expelledButton">Expelled students</button>
-      </section>
-      <section>
+      </div>
+      <div>
         <button id="squadedButton">Squad students</button>
-      </section>
-      <section>
+      </div>
+      <div>
         <button id="prefectedButton">Prefect students</button>
-      </section>
-      <section>
-        <button id="hackTheSystem">Hack the system</button>
-      </section>
-    </article>
-    <section id="studentList"></section>
-    <section id="modal" class="modal hidden">
-      <div class="firstModal">
-      <div class="modalLeft">
-        <div class="modalLeftTop">
-          <img class="studentPhotoModal" src="images/abbott_h.png" alt="Student's photo" />
-          <div class="modalDetails">
-            <p class="modalFirstname">First name:</p>
-            <p class="modalMiddlename">Middle name:</p>
-            <p class="modalNickname">Nickname:</p>
-            <p class="modalLastname">Last name:</p>
-          </div>
-        </div>
-        <div class="modalLeftBottom">
-          <p class="modalBlood">Blood status:</p>
-          <p class="modalPrefect">Has prefect: No</p>
-          <p class="modalExpelled">Is expelled: No</p>
-          <p class="modalSquad">Inquisitorial squad member: No</p>
-        </div>
-      </div>
-      <div class="modalRight">
-        <p>&#10008</p>
-        <img class="crestImage" src="images/Ravenclaw.png" alt="House crest" />
-      </div>
-      </div>
-      <div id="secondModal" class="secondModal">
-        <p></p>
       </div>
     </section>
+
     <section id="hackedModal" class="smallModal hidden">
       <p></p>
     </section>
+
     <section id="alertModal" class="smallModal hidden">
-      <p>&#10008</p>
+      <p>&#10008;</p>
       <p></p>
     </section>
+
+    <h3></h3>
+
+    <section id="studentList"></section>
+
     <template id="studentTemplate">
-      <tr>
-        <td data-field="photo">
-          <img class="studentPhoto" src="images/abbott_h.png" alt="Student's photo" />
-        </td>
-        <td data-field="firstname"></td>
-        <td data-field="house"></td>
-        <td data-field="blood"></td>
-        <!-- <td data-field="prefect">
-          <img class="prefectImage hidden" src="images/prefect.png" alt="Prefect" />
-        </td> -->
-        <td data-field="squad" data-squad="false"></td>
-        <td data-field="prefect" data-prefect="false"></td>
-        <td data-field="buttonEx">Expell student</td>
-        <td data-field="buttonSq">Add to Squad</td>
-        <td data-field="buttonPr">Add Prefect</td>
-      </tr>
+      <table class="tableStudentList">
+        <tr>
+          <td data-field="photo">
+            <img src="images/abbott_h.png" alt="Student's photo" />
+          </td>
+          <td data-field="firstname"></td>
+          <td data-field="icons">
+            <img class="hidden" src="images/prefect.svg" alt="Prefect" />
+            <img class="hidden" src="images/squad.svg" alt="Squad" />
+          </td>
+          <td data-field="blood">
+            <img src="images/pure.svg" alt="Blood type" />
+          </td>
+          <td data-field="house">
+            <img src="images/Ravenclaw_white.png" alt="House crest" />
+          </td>
+        </tr>
+      </table>
     </template>
+
+    <template id="modalWrap">
+      <section id="modal" class="modal hidden">
+        <article class="firstModal">
+          <div id="expelledRed" class="hidden">
+            <p>Expelled</p>
+          </div>
+          <div class="modalLeft">
+            <div class="modalLeftTop">
+              <img src="images/abbott_h.png" alt="Student's photo" />
+              <div class="modalDetails">
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+              </div>
+            </div>
+            <div class="modalLeftBottom">
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+          <div class="modalRight">
+            <img src="images/Ravenclaw.png" alt="House crest" />
+          </div>
+          <div class="crossModalDiv">
+            <p class="crossModal">&#10008;</p>
+          </div>
+        </article>
+        <article class="buttonsModal">
+          <button>Expell student</button>
+          <button>Add to squad</button>
+          <button>Add prefect</button>
+        </article>
+      </section>
+    </template>
+
+    <footer>
+      <p>This project was created by Diana Priediena as part of the study course at KEA in 2021.</p>
+    </footer>
+
     <script src="script.js"></script>
   </body>
 </html>

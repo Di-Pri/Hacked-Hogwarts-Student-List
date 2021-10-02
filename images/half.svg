@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 200">
+  <defs>
+    <style>
+      .a {
+        fill: #93697d;
+      }
+
+      .b {
+        fill: #eae5e8;
+      }
+    </style>
+  </defs>
+  <path class="a" d="M70,3.5c-61,98-68,124-68,142,0,22,17,53,68,53Z"/>
+  <path class="b" d="M70,3.5c61,98,68,124,68,142,0,22-17,53-68,53Z"/>
+</svg>

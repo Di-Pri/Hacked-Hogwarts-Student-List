@@ -1,11 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap");
+
 :root {
   --text-color: aliceblue;
+  --font-family: "Nanum Myeongjo", serif;
 }
 
 body {
   margin: 0;
   color: var(--text-color);
   font-size: 18px;
+  font-family: var(--font-family);
+}
+
+footer {
+  text-align: center;
+  color: #99b1bb;
+  margin-top: 4rem;
 }
 
 #background {
@@ -18,57 +28,117 @@ body {
   z-index: -1;
 }
 
-h1,
+h1 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 800;
+}
+
 h3 {
   text-align: center;
+  font-size: 25px;
 }
 
 #studentList {
-  margin: 5rem;
-  border-spacing: 1rem;
+  margin: 1rem;
 }
 
-#studentList tr {
+.tableStudentList {
+  border-spacing: 0rem;
+  margin: 0 auto;
+}
+
+.tableStudentList tr {
   cursor: pointer;
+}
+
+.tableStudentList td:nth-of-type(1) {
+  height: 130px;
+}
+
+.tableStudentList td:nth-of-type(2) {
+  width: 24rem;
+  padding-left: 3rem;
+  font-size: 23px;
+}
+
+.tableStudentList td:nth-of-type(3) {
+  width: 11rem;
+  text-align: right;
+  padding-right: 1rem;
+  margin: 0 auto;
+}
+
+.tableStudentList td:nth-of-type(3) img {
+  width: 47px;
+  margin-right: 0.5rem;
+}
+
+.tableStudentList td:nth-of-type(4) {
+  width: 6rem;
+}
+
+.tableStudentList td:nth-of-type(4) img {
+  height: 25px;
+}
+
+.tableStudentList td:nth-of-type(5) {
+  width: 7rem;
+}
+
+.tableStudentList td:nth-of-type(5) img {
+  height: 100px;
 }
 
 .allButtons {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
-  margin: 2rem;
+  margin: 4rem 2rem;
 }
 
 .allButtons button {
   padding: 0.5rem;
-  padding-left: 1rem;
-  font-size: 16px;
-  text-align: left;
-  background-color: dimgray;
+  text-align: center;
+  background-color: #233035;
   color: var(--text-color);
-  border: 1.5px solid var(--text-color);
+  border: 1.5px solid #99b1bb;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: 600;
   width: 14rem;
   cursor: pointer;
   outline: none;
 }
 
+#filter,
+#sort {
+  text-align: left;
+  padding-left: 1rem;
+}
+
 .allButtons button span:nth-of-type(2) {
-  font-size: 11px;
+  font-size: 8px;
   float: right;
   padding: 3px;
+  padding-top: 5px;
 }
 
 .allButtons button:hover {
-  background-color: gray;
+  background-color: #415157;
 }
 
 .button-dropdown {
   position: absolute;
-  background-color: dimgray;
+  background-color: #233035;
   display: flex;
   flex-direction: column;
   width: 12.8rem;
-  border: 1.5px solid var(--text-color);
+  border: 1.5px solid #99b1bb;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: 600;
   border-top: none;
   padding: 0.5rem;
 }
@@ -79,7 +149,32 @@ h3 {
 }
 
 .button-dropdown p:hover {
-  color: gray;
+  color: #415157;
+}
+
+.buttonsModal {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.buttonsModal button {
+  padding: 0.5rem;
+  width: 12rem;
+  background: transparent;
+  box-shadow: 0px 0px 4px 0.5px var(--text-color);
+  border: none;
+  padding: 0.5rem;
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.buttonsModal button:hover {
+  box-shadow: 0px 0px 6px 1.5px var(--text-color);
 }
 
 #search {
@@ -93,7 +188,9 @@ input[type="search"] {
   border-bottom: 1.5px solid var(--text-color);
   width: 240px;
   transition: width 0.3s ease-out;
-  font-size: 16px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 500;
   text-align: center;
   color: var(--text-color);
   padding: 0.5rem;
@@ -124,8 +221,50 @@ input[type="search"]::-webkit-search-cancel-button {
   top: 50%;
   transform: translate(-50%, -50%);
   padding: 1rem;
-  background-color: gray;
-  box-shadow: 0px 0px 6px 1px rgb(88, 88, 88);
+}
+
+.firstModal {
+  display: flex;
+  width: 700px;
+  height: 300px;
+}
+
+.modalLeft {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalLeftTop {
+  display: flex;
+  height: 50%;
+  gap: 1rem;
+}
+
+.modalLeftTop img {
+  max-height: 100%;
+  height: 140px;
+  margin-left: 0.5rem;
+}
+
+.crossModal {
+  margin-top: 0;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.crossModalDiv {
+  z-index: 2;
+}
+
+.modalRight img {
+  max-height: 95%;
+  opacity: 0.8;
+  margin-right: 1rem;
+}
+
+.modalLeft p {
+  margin: 0.7rem;
 }
 
 .smallModal {
@@ -134,16 +273,18 @@ input[type="search"]::-webkit-search-cancel-button {
   top: 50%;
   transform: translate(-50%, -50%);
   padding: 1rem;
-  background-color: gray;
-  box-shadow: 0px 0px 6px 1px rgb(88, 88, 88);
+  background-color: #303c41;
+  box-shadow: 0px 0px 6px 1px #aabbc2;
   width: 400px;
   height: fit-content;
+  z-index: 5;
 }
 
 #alertModal p:nth-of-type(1) {
   float: right;
   font-size: 20px;
   cursor: pointer;
+  margin-top: -0.3rem;
 }
 
 #alertModal p:nth-of-type(2) {
@@ -158,91 +299,219 @@ input[type="search"]::-webkit-search-cancel-button {
   margin: 2rem;
 }
 
-.firstModal {
-  display: flex;
-  width: 700px;
-  height: 300px;
-}
-
-.modalLeft {
-  width: 85%;
-  display: flex;
-  flex-direction: column;
-}
-
-.modalLeftTop {
-  display: flex;
-  height: 50%;
-}
-
-.modalRight p {
-  float: right;
-  margin-top: -0.2rem;
-  margin-right: 0.2rem;
-  cursor: pointer;
-}
-
-.studentPhotoModal {
-  max-height: 100%;
-  height: 140px;
-}
-
-.crestImage {
-  max-height: 95%;
-  opacity: 0.8;
-  margin-top: -2rem;
-  margin-right: 2rem;
-}
-
-.modalLeft p {
-  margin: 0.7rem;
-}
-
 .slytherin {
-  background-color: #08331f;
+  background-color: #0b301f;
+  box-shadow: 0px 0px 6px 1px #56836c;
 }
 
 .hufflepuff {
   background-color: #37260a;
+  box-shadow: 0px 0px 6px 1px #947e59;
 }
 
 .ravenclaw {
   background-color: #0b2b40;
+  box-shadow: 0px 0px 6px 1px #587c94;
 }
 
 .gryffindor {
   background-color: #3f182b;
+  box-shadow: 0px 0px 6px 1px #93697d;
 }
 
 .hidden {
   display: none;
 }
 
-.secondModal {
-  display: flex;
-  justify-content: space-around;
+.darken {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: #131b20a6;
 }
 
-.secondModal button {
-  padding: 0.5rem;
-  width: 10rem;
-  background: transparent;
-  box-shadow: 0px 0px 4px 0.5px var(--text-color);
-  border: none;
-  padding: 0.5rem;
-  color: var(--text-color);
-  font-size: 16px;
-  margin-top: 1rem;
+#hackTheSystem {
+  width: 80px;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  animation: opac 6s infinite linear;
 }
 
-.secondModal button:hover {
-  opacity: 0.5;
+@keyframes opac {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
+  }
 }
 
-.opacity {
-  opacity: 0.5;
+.zIndex {
+  z-index: 3;
 }
 
-.prefectImage {
-  width: 40px;
+.expelledRed {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  user-select: none;
+  background-color: rgba(143, 143, 143, 0.356);
+}
+
+.expelledRed p {
+  transform: rotate(-18deg);
+  font-size: 120px;
+  font-weight: 800;
+  color: rgb(61, 8, 8);
+}
+
+.slideOut {
+  position: fixed;
+  font-size: 150px;
+  font-weight: 500;
+  text-align: center;
+  top: 0;
+  z-index: 20;
+}
+
+.slideOut p {
+  background-color: #20282e;
+  width: 100vw;
+  height: 25vh;
+  margin: 0;
+  opacity: 0;
+  user-select: none;
+}
+
+.slideOut p:nth-of-type(1) {
+  animation: moveTop 0.5s linear forwards;
+}
+
+@keyframes moveTop {
+  0% {
+    opacity: 1;
+    transform: translate(0, -200px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.slideOut p:nth-of-type(2) {
+  animation: moveLeft 0.5s linear 0.5s forwards;
+}
+
+@keyframes moveLeft {
+  0% {
+    opacity: 1;
+    transform: translate(-1500px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+.slideOut p:nth-of-type(3) {
+  animation: moveRight 0.5s linear 1s forwards;
+}
+
+@keyframes moveRight {
+  0% {
+    opacity: 1;
+    transform: translate(1500px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+.slideOut p:nth-of-type(4) {
+  animation: moveBottom 0.5s linear 1.5s forwards;
+}
+
+@keyframes moveBottom {
+  0% {
+    opacity: 1;
+    transform: translate(0, 200px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .modalRight img {
+    display: none;
+  }
+
+  .modalLeft {
+    width: 90%;
+  }
+
+  .buttonsModal {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .firstModal {
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .modalLeftTop {
+    flex-direction: column;
+  }
+
+  .modalLeftTop img {
+    display: none;
+  }
+
+  .expelledRed p {
+    font-size: 50px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h3 {
+    font-size: 22px;
+  }
+
+  .tableStudentList td:nth-of-type(2) {
+    padding-left: 1rem;
+    font-size: 18px;
+  }
+
+  .tableStudentList td:nth-of-type(5) {
+    display: none;
+  }
+
+  .tableStudentList td:nth-of-type(1) img {
+    width: 90px;
+  }
+
+  .smallModal {
+    width: 280px;
+  }
+
+  .slideOut {
+    font-size: 100px;
+  }
 }

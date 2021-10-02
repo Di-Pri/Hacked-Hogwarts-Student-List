@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 200">
+  <defs>
+    <style>
+      .a {
+        fill: #c6cbce;
+      }
+    </style>
+  </defs>
+  <path class="a" d="M70,2.5c-61,98-68,124-68,142,0,22,17,53,68,53s68-31,68-53C138,126.5,131,100.5,70,2.5Z"/>
+</svg>
