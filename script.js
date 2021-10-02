@@ -259,7 +259,7 @@ function displayStudentList(student) {
   ).textContent = `${student.firstName} ${student.middleName} ${student.nickName} ${student.lastName}`;
 
   clone.querySelector("[data-field=house] img").src = `images/${student.house}_white.png`;
-  clone.querySelector("[data-field=blood] img").src = `images/${student.blood}.svg`;
+  clone.querySelector("[data-field=blood] img").src = `images/${student.blood.toLowerCase()}.svg`;
 
   if (student.prefect === true) {
     clone.querySelector("[data-field=icons] img:nth-of-type(1)").classList.remove("hidden");
