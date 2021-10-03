@@ -126,7 +126,10 @@ function filterClicked(event) {
 }
 
 function filterStudents(filteredStudents) {
-  if (document.querySelector("#filter span").textContent !== "Filter ") {
+  if (
+    document.querySelector("#filter span").textContent !== "Filter " &&
+    document.querySelector("#filter span").textContent !== "Filter  "
+  ) {
     filteredStudents = allStudents.filter(filtered);
 
     function filtered(student) {
@@ -355,17 +358,23 @@ function showModal(student) {
       document.querySelector("#hackedModal p").textContent = "Hacker can't be expelled";
     } else {
       student.expelled = true;
-      student.prefect = false;
-      student.squad = false;
 
       const indexStudent = allStudents.findIndex((obj) => obj.firstName === student.firstName);
       allStudents.splice(indexStudent, 1);
 
-      const indexStudent2 = prefectedStudents.findIndex((obj) => obj.firstName === student.firstName);
-      prefectedStudents.splice(indexStudent2, 1);
+      if (student.prefect === true) {
+        student.prefect = false;
 
-      const indexStudent3 = squadedStudents.findIndex((obj) => obj.firstName === student.firstName);
-      squadedStudents.splice(indexStudent3, 1);
+        const indexStudent2 = prefectedStudents.findIndex((obj) => obj.firstName === student.firstName);
+        prefectedStudents.splice(indexStudent2, 1);
+      }
+
+      if (student.squad === true) {
+        student.squad = false;
+
+        const indexStudent3 = squadedStudents.findIndex((obj) => obj.firstName === student.firstName);
+        squadedStudents.splice(indexStudent3, 1);
+      }
 
       expelledStudents.push(student);
 
@@ -493,13 +502,10 @@ function showExpelledStudents() {
 // Show students in Squad
 
 function showSquadedStudents() {
-  document.querySelector("#filter span").textContent = "Filter ";
+  // added double space to the end of Filter, so I can see when "Squad students" page is open
+  document.querySelector("#filter span").textContent = "Filter  ";
 
   document.querySelector("input").value = "";
-
-  if (squadedStudents.length < 1) {
-    document.querySelector("h3").textContent = "Inquisitorial squad is empty";
-  }
 
   readyStudents = squadedStudents;
   displayList(readyStudents);
@@ -607,6 +613,10 @@ function removeFromSquad() {
   });
 
   squadedStudents = [];
+
+  if (document.querySelector("#filter span").textContent === "Filter  ") {
+    readyStudents = squadedStudents;
+  }
 
   buildList();
 }
