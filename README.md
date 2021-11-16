@@ -15,3 +15,5 @@ Process:
 - Removing all students from the inquisitorial squad, when the system is hacked.
 - Randomizing students’ blood status where students with pure blood get random status, and with half and muggle blood become pure-bloods.
 - Enrolling a hacker in Hogwarts with no chance to be expelled.
+
+![hogwarts landing page](https://user-images.githubusercontent.com/78381060/142082601-24cd5691-2964-4893-affb-c12aa896d539.jpg)
